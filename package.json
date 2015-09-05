@@ -22,11 +22,15 @@
   },
   "homepage": "https://github.com/tintoy/tfs-publish-trx#readme",
   "dependencies": {
+    "bluebird": "^2.9.34",
     "lodash": "^3.10.1",
     "regedit": "^2.2.5"
   },
   "devDependencies": {
     "gulp": "^3.9.0",
-    "gulp-babel": "^5.2.1"
+    "gulp-babel": "^5.2.1",
+    "gulp-tsc": "^1.1.1",
+    "gulp-typescript": "^2.8.2",
+    "typescript": "^1.5.3"
   }
 }

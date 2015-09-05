@@ -1,11 +1,11 @@
 var gulp = require("gulp");
-var babel = require("gulp-babel");
+var tsc = require("gulp-tsc");
 
 gulp.task("default", () => {
-  return gulp.src("src/**/*.js")
+  return gulp.src("src/**/*.ts")
     .pipe(
-    	babel({
-    		
+    	tsc({
+    		target: "ES5"
     	})
     )
     .pipe(gulp.dest("dist"));
