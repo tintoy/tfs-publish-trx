@@ -20,5 +20,10 @@
   "bugs": {
     "url": "https://github.com/tintoy/tfs-publish-trx/issues"
   },
-  "homepage": "https://github.com/tintoy/tfs-publish-trx#readme"
+  "homepage": "https://github.com/tintoy/tfs-publish-trx#readme",
+  "dependencies": {
+    "regedit": "^2.2.5",
+    "windows": "0.0.6",
+    "winreg": "0.0.12"
+  }
 }
