@@ -1,0 +1,24 @@
+{
+  "name": "tfs-publish-trx",
+  "version": "0.0.1",
+  "description": "Publish TRX (test result) files to TFS.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tintoy/tfs-publish-trx.git"
+  },
+  "keywords": [
+    "tfs",
+    "visualstudio",
+    "trx"
+  ],
+  "author": "tin toy <tintoy@tintoy.io>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tintoy/tfs-publish-trx/issues"
+  },
+  "homepage": "https://github.com/tintoy/tfs-publish-trx#readme"
+}
