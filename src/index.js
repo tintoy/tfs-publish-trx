@@ -1,25 +1,27 @@
-"option strict";
+"use strict";
 
-var regedit = require("regedit");
-var path    = require("path");
+const regedit = require("regedit");
+const path    = require("path");
 
-var installDirs = {};
+import {VisualStudio} from "visual-studio-info";
 
-var vsKeys = [
+const installDirs = {};
+
+const vsKeys = [
     "HKLM\\SOFTWARE\\Wow6432Node\\Microsoft\\VisualStudio\\12.0\\Setup\\vs",
     "HKLM\\SOFTWARE\\Wow6432Node\\Microsoft\\VisualStudio\\14.0\\Setup\\vs"
- ];
-regedit.list(vsKeys, function(error, items) {
+];
+regedit.list(vsKeys, (error, items) => {
 	if (error)
 		console.log(error);
 
-	if (!items)
+	if (!items || !items.length)
 		return;
     
     installDirs.vs2013 = items[vsKeys[0]];
     installDirs.vs2015 = items[vsKeys[1]]
 
-    for (vsVersion in installDirs) {
+    for (let vsVersion in installDirs) {
         if (!installDirs[vsVersion] || !installDirs.hasOwnProperty(vsVersion))
             continue;
         
@@ -32,11 +34,9 @@ regedit.list(vsKeys, function(error, items) {
     console.dir(installDirs);
 });
 
-module.exports = {
-    visualStudio: {
-        installDir: {
-            vs2013: installDirs.vs2013,
-            vs2013: installDirs.vs2015
-        }
+export const visualStudio = {
+    installDir: {
+        vs2013: installDirs.vs2013,
+        vs2013: installDirs.vs2015
     }
 };
