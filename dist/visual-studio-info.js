@@ -2,20 +2,21 @@
 "use strict";
 var regedit = require("regedit");
 var Promise = require("bluebird");
-var _ = require("lodash");
 var VisualStudio = (function () {
     function VisualStudio() {
-        this._installedVersions = [];
     }
     /**
      * Load VS information from the registry.
+     * @param refresh {boolean} Refresh the configuration if it has already been loaded?
      * @return A promise that resolves to the VisualStudio instance.
      */
-    VisualStudio.prototype.load = function () {
+    VisualStudio.loadConfiguration = function (refresh) {
         var _this = this;
-        return new Promise(function (resolve, reject) {
-            _this._configurations = {};
-            _this._installedVersions = [];
+        if (refresh === void 0) { refresh = false; }
+        if (this.loader && !refresh)
+            return this.loader;
+        this.loader = new Promise(function (resolve, reject) {
+            var configurations = {};
             var vsKeys = [
                 "HKLM\\SOFTWARE\\Wow6432Node\\Microsoft\\VisualStudio\\12.0\\Setup\\vs",
                 "HKLM\\SOFTWARE\\Wow6432Node\\Microsoft\\VisualStudio\\14.0\\Setup\\vs"
@@ -26,33 +27,30 @@ var VisualStudio = (function () {
                     return;
                 }
                 if (!items || !items.length)
-                    resolve(_this);
+                    resolve(configurations);
                 var vsInstallDir = _this.getInstallDir(items[vsKeys[0]]);
                 if (vsInstallDir) {
-                    _this._configurations.vs2013 = {
+                    configurations.vs2013 = {
                         installDir: vsInstallDir
                     };
-                    _this._installedVersions.push("vs2013");
                 }
                 vsInstallDir = _this.getInstallDir(items[vsKeys[1]]);
                 if (vsInstallDir) {
-                    _this._configurations.vs2015 = {
+                    configurations.vs2015 = {
                         installDir: vsInstallDir
                     };
-                    _this._installedVersions.push("vs2015");
                 }
-                resolve(_this);
+                resolve(configurations);
             });
         });
+        return this.loader;
     };
-    Object.defineProperty(VisualStudio.prototype, "installedVersions", {
-        get: function () {
-            return _.map(this._installedVersions, function (version) { return version; });
-        },
-        enumerable: true,
-        configurable: true
-    });
-    VisualStudio.prototype.getInstallDir = function (vsKey) {
+    /**
+     * Get the product installation directory from the specified Visual Studio registry key.
+     * @param vsKey {} The Visual Studio registry key.
+     * @return The "ProductDir" registry value, or null if not present (or vsKey is null).
+     */
+    VisualStudio.getInstallDir = function (vsKey) {
         if (!vsKey)
             return null;
         if (vsKey.values.ProductDir && vsKey.values.ProductDir.value)

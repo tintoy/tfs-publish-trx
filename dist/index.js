@@ -1,13 +1,12 @@
 "use strict";
 var regedit = require("regedit");
 var path = require("path");
-var visual_studio_info_1 = require("./visual-studio-info");
-var visualStudio = new visual_studio_info_1.VisualStudio();
-visualStudio.load()
+var visualstudio_config_1 = require("visualstudio-config");
+visualstudio_config_1.VisualStudio.loadConfiguration()
     .then(function (vs) {
-    for (var _i = 0, _a = vs.installedVersions; _i < _a.length; _i++) {
-        var installedVersion = _a[_i];
-        console.log(installedVersion);
-    }
+    if (vs.vs2013)
+        console.log(vs.vs2013.installDir);
+    if (vs.vs2015)
+        console.log(vs.vs2015.installDir);
 })
     .catch(function (error) { return console.log(error); });

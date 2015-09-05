@@ -3,14 +3,14 @@
 const regedit = require("regedit");
 const path    = require("path");
 
-import {VisualStudio} from "./visual-studio-info";
+import {VisualStudio, VisualStudioConfiguration} from "visualstudio-config";
 
-const visualStudio = new VisualStudio();
-
-visualStudio.load()
+VisualStudio.loadConfiguration()
 	.then(vs => {
-		for (const installedVersion of vs.installedVersions) {
-			console.log(installedVersion);
-		}
+		if (vs.vs2013)
+			console.log(vs.vs2013.installDir);
+		
+		if (vs.vs2015)
+			console.log(vs.vs2015.installDir);
 	})
 	.catch(error => console.log(error));
